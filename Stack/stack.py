@@ -29,3 +29,6 @@ class Stack:
 
     def display(self):
         return self.s    
+
+    def size(self):
+        return len(self.s)
