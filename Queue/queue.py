@@ -31,3 +31,5 @@ class Queue:
         return len(self.q) == 0
     def display(self):
         return self.q
+    def size(self):
+        return len(self.q)
