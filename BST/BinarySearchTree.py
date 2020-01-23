@@ -1,9 +1,51 @@
-from Node import Node
+class Node:
+    def __init__(self, d):
+        self.data= d
+        self.left= None
+        self.right= None
 
-class BST(object):
+    def insert(self, d):
+        if self.data == d:
+            return False
+        elif d < self.data :
+            if self.left:
+                return self.left.insert(d)
+            else:
+                self.left= Node(d)
+                return True
+        else:
+            if self.right:
+                return self.right.insert(d)
+            else:
+                self.right= Node(d)
+                return True
+
+    def find(self, d):
+        if self.data == d:
+            return True
+        elif d < self.data:
+            return self.left.find(d)
+        elif d > self.data:
+            return self.right.find(d)
+        return False
+
+class DLLNode:
+    def __init__(self, data):
+        self.data= data
+        self.__next= None
+        self.__prev= None
+    def setNext(self,node):
+        self.__next= node
+    def setPrev(self, node):
+        self.__prev= node
+    def getNext(self):
+        return self.__next
+
+class BST:
     def __init__(self):
         self.root= None
-
+        self.dll= []
+        self.dllHead= None
     def insert(self, d):
         if self.root:
             return self.root.insert(d)
@@ -101,22 +143,74 @@ class BST(object):
                     moveNodeParent.right= None
             return True
 
-    def preorder(self):
-        if self.root:
-            return self.root.preorder([])
-        else:
-            return []
+    def preOrder(self, node):
+        if node is None:
+            return
+        print(node.data)
+        if node.left is not None:
+            self.preOrder(node.left)
+        if node.right is not None:
+            self.preOrder(node.right)
 
-    
-    def postorder(self):
-        if self.root:
-            return self.root.postorder([])
-        else:
-            return []
+    def postOrder(self, node):
+        if node is None:
+            return
+        # print(node.data)
+        if node.left is not None:
+            self.postOrder(node.left)
+            # print(node.data)
+        if node.right is not None:
+            self.postOrder(node.right)
+        print(node.data)
 
+    def inOrder(self,node):
+        if node is None:
+            return
+        if node.left is not None:
+            self.inOrder(node.left)
+        print(node.data)
+        if node.right is not None:
+            self.inOrder(node.right)
 
-    def inorder(self):
-        if self.root:
-            return self.root.inorder([])
-        else:
-            return []
+    def __setProperties(self):
+        for i in range(len(self.dll)):
+            curr= DLLNode(self.dll[i])
+            if i == 0: #head
+                print('Head',curr.data)
+                next= DLLNode(self.dll[i+1])
+                self.dllHead=curr
+                curr.setNext(next)
+            elif i == len(self.dll)-1 : #tail
+                print('Tail',curr.data)
+                prev= DLLNode(self.dll[i-1])
+                curr.setPrev(prev)
+            else:
+                print('In Between',curr.data)
+                prev= DLLNode(self.dll[i-1])
+                next= DLLNode(self.dll[i+1])
+                curr.setPrev(prev)
+                curr.setNext(next)
+
+    def __firstStep(self, node):
+        if node is None:
+            return
+        if node.left is not None:
+            self.__firstStep(node.left)
+        self.dll.append(node.data)
+        if node.right is not None:
+            self.__firstStep(node.right)
+
+    def __toList(self):
+        print(self.dll)
+        temp= self.dllHead
+        res=''
+        while temp is not None:
+            res+='|'+str(temp.data)+'| -> '
+            temp= temp.getNext()
+        res+= '| null |'
+        print(res)
+    def bstToDll(self, node):
+        self.__firstStep(node)
+        self.__setProperties()
+        self.__toList()
+        return self.dllHead
