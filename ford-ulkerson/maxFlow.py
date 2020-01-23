@@ -74,20 +74,35 @@ class Graph:
                 self.graph[u][v] -= path_flow
                 self.graph[v][u] += path_flow
                 v = parent[v]
-            print(max_flow)
-            print(graph)
-        print(graph)
+            # print(max_flow)
+            # print(graph)
+            for i in range(len(graph)):
+                print(i,': ', graph[i])
+            print('\n')
+        
         return max_flow
 
 
     # Create a graph given in the above diagram
 if __name__=='__main__':
-    graph = [[0, 5, 10, 0, 0, 0],
-             [0, 0, 0, 4, 5, 0],
-             [0, 0, 0, 5, 5, 0],
-             [0, 0, 0, 0, 0, 8],
-             [0, 0, 0, 0, 0, 10],
-             [0, 0, 0, 0, 0, 0]]
+    # graph = [[0, 5, 10, 0, 0, 0],
+    #          [0, 0, 0, 4, 5, 0],
+    #          [0, 0, 0, 5, 5, 0],
+    #          [0, 0, 0, 0, 0, 8],
+    #          [0, 0, 0, 0, 0, 10],
+    #          [0, 0, 0, 0, 0, 0]]
+
+    graph= [[0,30,50,40,0,0,0,0,0],
+            [0,0,20,0,10,20,0,0,0],
+            [0,20,0,20,0,0,40,0,0],
+            [0,0,20,0,0,0,0,40,0],
+            [0,0,0,0,0,5,0,0,0],
+            [0,0,0,0,0,0,15,0,15],
+            [0,0,0,0,0,15,0,0,25],
+            [0,0,0,0,0,0,0,0,20],
+            [0,0,0,0,0,0,0,0,0]]
+    for i in range(len(graph)):
+            print(i,': ', len(graph[i]))
     # graph = [[0, 16, 13, 0, 0, 0],
     #          [0, 0, 10, 12, 0, 0],
     #          [0, 4, 0, 0, 14, 0],
@@ -96,6 +111,6 @@ if __name__=='__main__':
     #          [0, 0, 0, 0, 0, 0]]
     g = Graph(graph)
 
-    source = 0; sink = 5
+    source = 0; sink = 8
 
     print ("The maximum possible flow is %d " % g.FordFulkerson(source, sink))
